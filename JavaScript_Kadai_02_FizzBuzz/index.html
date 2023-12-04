@@ -8,18 +8,18 @@
 <body>
   <div>
     <div>
-      <label for="lblFizz">fizzNum: </label>
-      <input id="numFizz" data-maxlength="1" value="" placeholder="整数値を入力して下さい。" />
+      <label for="fizz">fizzNum: </label>
+      <!-- <input id="fizz" type="number" data-maxlength="1" value="" placeholder="整数値を入力して下さい。" /> -->
+      <input id="fizz" data-maxlength="1" value="" placeholder="整数値を入力して下さい。" />
     </div>
     <div>
-      <label for="lblBuzz">buzzNum: </label>
-      <input id="numBuzz" data-maxlength="1" value="" placeholder="整数値を入力して下さい。" />
+      <label for="buzz">buzzNum: </label>
+      <!-- <input  id="buzz" type="number" data-maxlength="1" value="" placeholder="整数値を入力して下さい。" /> -->
+      <input  id="buzz" data-maxlength="1" value="" placeholder="整数値を入力して下さい。" />
     </div>
     <button id="btnExec" type="button">実行</button>
   </div>
-  <div>
-    <ul id="listFizzBuzz"></ul>
-  </div>
+  <div id="result"></div>
   <script src="./js/main.js" type="text/javascript"></script>
 </body>
 </html>
