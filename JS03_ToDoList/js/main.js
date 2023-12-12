@@ -34,7 +34,7 @@ btnAdd.addEventListener(
       newID.innerHTML = arrTasks.id;
       newCom.innerHTML = arrTasks.com;
       newSta.innerHTML = arrTasks.sta;
-      createBtnDele(newDel, arrTasks.del);
+      createBtnDelete(newDel, arrTasks.del);
       // 入力クリア
       elmTxtTask.value = '';
       // 入力レコード追加
@@ -46,12 +46,12 @@ btnAdd.addEventListener(
 
 // ------------------------------
 // 削除ボタン
-const createBtnDele = (elm, text) => {
-  const btnDele = document.createElement('button');
-  btnDele.textContent = text;
-  btnDele.addEventListener('click', function () {
+const createBtnDelete = (elm, text) => {
+  const btnDelete = document.createElement('button');
+  btnDelete.textContent = text;
+  btnDelete.addEventListener('click', function () {
     // 作業中の処理をここに追加
     console.log('ボタン「削除」がクリックされました。');
   });
-  elm.appendChild(btnDele);
+  elm.appendChild(btnDelete);
 };
