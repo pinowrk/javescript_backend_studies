@@ -22,7 +22,6 @@ btnAdd.addEventListener(
         id: allTasks.length,
         com: txtTask,
         sta: '作業中',
-        del: '削除',
       };
       // 入力レコード追加
       allTasks.push(arrTasks);
@@ -35,12 +34,9 @@ btnAdd.addEventListener(
         const rowBody = tblBody.insertRow();
         Object.values(rowTask).forEach(function (value) {
           const tblCell = rowBody.insertCell();
-          if (value == '削除') {
-            createBtn(tblCell, value);
-          } else {
-            tblCell.textContent = value;
-          }
+          tblCell.textContent = value;
         });
+        createBtn(rowBody, '削除');
       });
       // リスト追加
       elmTblToDo.appendChild(tblBody);
@@ -50,13 +46,14 @@ btnAdd.addEventListener(
 );
 
 // ------------------------------
-// 削除ボタン
+// ボタン作成
 const createBtn = (elm, text) => {
+  const elmTrg = elm.insertCell();
   const elmBtn = document.createElement('button');
   elmBtn.textContent = text;
   elmBtn.addEventListener('click', function () {
     // 作業中の処理をここに追加
     console.log('ボタン「削除」がクリックされました。');
   });
-  elm.appendChild(elmBtn);
+  elmTrg.appendChild(elmBtn);
 };
