@@ -31,12 +31,12 @@ btnAdd.addEventListener(
       // タスクリスト生成
       const tblBody = elmTblTask;
       allTasks.forEach(function (rowTask) {
-        const rowBody = tblBody.insertRow();
+        const tblRow = tblBody.insertRow();
         Object.values(rowTask).forEach(function (value) {
-          const tblCell = rowBody.insertCell();
+          const tblCell = tblRow.insertCell();
           tblCell.textContent = value;
         });
-        createBtn(rowBody, '削除');
+        createBtn(tblRow, '削除');
       });
       // リスト追加
       elmTblToDo.appendChild(tblBody);
@@ -51,9 +51,9 @@ const createBtn = (elm, text) => {
   const elmTrg = elm.insertCell();
   const elmBtn = document.createElement('button');
   elmBtn.textContent = text;
-  elmBtn.addEventListener('click', function () {
+  elmBtn.addEventListener('click', function (event) {
     // 作業中の処理をここに追加
-    console.log('ボタン「削除」がクリックされました。');
+    console.log(event.target.textContent);
   });
   elmTrg.appendChild(elmBtn);
 };
