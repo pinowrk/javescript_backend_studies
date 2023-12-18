@@ -17,7 +17,7 @@ btnAdd.addEventListener(
     // 入力ある場合のみ処理
     if (txtTask !== '') {
       addAllTasks(txtTask);
-      updTblDatas();
+      showTaskList();
       // 入力クリア
       elmTxtTask.value = '';
     }
@@ -38,7 +38,7 @@ const addAllTasks = (txtTask) => {
 };
 // ------------------------------
 // テーブル更新
-const updTblDatas = () => {
+const showTaskList = () => {
   // テーブルクリア
   elmTblTask.innerHTML = '';
   // タスクリスト生成
@@ -79,5 +79,5 @@ const createBtn = (elm, text) => {
 // タスク削除
 const delArrTask = (arrIdx) => {
   allTasks.splice(arrIdx, 1);
-  updTblDatas();
+  showTaskList();
 };
