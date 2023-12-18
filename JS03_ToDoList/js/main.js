@@ -76,7 +76,7 @@ const createBtn = (elm, text) => {
       if (event.target.textContent == '作業中') {
         elmBtn.textContent = '完了';
         chgTaskStat(arrIdx, '完了');
-      } else {
+      } else if (event.target.textContent == '完了') {
         elmBtn.textContent = '作業中';
         chgTaskStat(arrIdx, '作業中');
       }
