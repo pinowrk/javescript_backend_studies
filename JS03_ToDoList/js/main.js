@@ -46,9 +46,13 @@ const showTaskList = () => {
   allTasks.forEach((rowTask, rowIdx) => {
     rowTask.id = rowIdx;
     const tblRow = tblBody.insertRow();
-    Object.values(rowTask).forEach((value) => {
+    Object.keys(rowTask).forEach((key) => {
       const tblCell = tblRow.insertCell();
-      tblCell.textContent = value;
+      if (key == 'sta') {
+        createBtn(tblRow, rowTask[key]);
+      } else {
+        tblCell.textContent = rowTask[key];
+      }
     });
     createBtn(tblRow, '削除');
   });
@@ -65,11 +69,17 @@ const createBtn = (elm, text) => {
   elmBtn.addEventListener('click', (event) => {
     const tblRow = event.target.parentNode.parentNode;
     const arrIdx = tblRow.rowIndex - 1;
-    // 削除ボタンの処理
+    // ボタンクリック時のイベント処理
     if (event.target.textContent == '削除') {
       delArrTask(arrIdx);
     } else {
-      // ここにタスクの状態の処理
+      if (event.target.textContent == '作業中') {
+        elmBtn.textContent = '完了';
+        chgTaskStat(arrIdx, '完了');
+      } else {
+        elmBtn.textContent = '作業中';
+        chgTaskStat(arrIdx, '作業中');
+      }
     }
   });
   elmTrg.appendChild(elmBtn);
@@ -79,5 +89,12 @@ const createBtn = (elm, text) => {
 // タスク削除
 const delArrTask = (arrIdx) => {
   allTasks.splice(arrIdx, 1);
+  showTaskList();
+};
+
+// ------------------------------
+// タスク状態変更
+const chgTaskStat = (arrIdx, statText) => {
+  allTasks[arrIdx]['sta'] = statText;
   showTaskList();
 };
