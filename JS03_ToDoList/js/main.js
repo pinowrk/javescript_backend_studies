@@ -30,8 +30,8 @@ const addAllTasks = (txtTask) => {
   // 新規レコード用オブジェクト
   const arrTasks = {
     id: allTasks.length,
-    com: txtTask,
-    sta: '作業中',
+    comment: txtTask,
+    status: '作業中',
   };
   // 入力レコード追加
   allTasks.push(arrTasks);
@@ -48,13 +48,15 @@ const showTaskList = () => {
     const tblRow = tblBody.insertRow();
     Object.keys(rowTask).forEach((key) => {
       const tblCell = tblRow.insertCell();
-      if (key == 'sta') {
-        createBtn(tblRow, rowTask[key]);
+      if (key == 'status') {
+        elmStatusBtn = createBtn(tblRow, rowTask[key]);
+        addStatusEvent(elmStatusBtn);
       } else {
         tblCell.textContent = rowTask[key];
       }
     });
-    createBtn(tblRow, '削除');
+    elmDelBtn = createBtn(tblRow, '削除');
+    addDelEvent(elmDelBtn);
   });
   // リスト追加
   elmTblToDo.appendChild(tblBody);
@@ -66,23 +68,34 @@ const createBtn = (elm, text) => {
   const elmTrg = elm.insertCell();
   const elmBtn = document.createElement('button');
   elmBtn.textContent = text;
-  elmBtn.addEventListener('click', (event) => {
+  elmTrg.appendChild(elmBtn);
+  return elmBtn;
+};
+
+// ------------------------------
+// 削除ボタンイベント
+const addDelEvent = (elm) => {
+  elm.addEventListener('click', (event) => {
     const tblRow = event.target.parentNode.parentNode;
     const arrIdx = tblRow.rowIndex - 1;
-    // ボタンクリック時のイベント処理
-    if (event.target.textContent == '削除') {
-      delArrTask(arrIdx);
-    } else {
-      if (event.target.textContent == '作業中') {
-        elmBtn.textContent = '完了';
-        chgTaskStat(arrIdx, '完了');
-      } else if (event.target.textContent == '完了') {
-        elmBtn.textContent = '作業中';
-        chgTaskStat(arrIdx, '作業中');
-      }
-    }
+    delArrTask(arrIdx);
   });
-  elmTrg.appendChild(elmBtn);
+};
+
+// ------------------------------
+// 状態ボタンイベント
+const addStatusEvent = (elm) => {
+  elm.addEventListener('click', (event) => {
+    const tblRow = event.target.parentNode.parentNode;
+    const arrIdx = tblRow.rowIndex - 1;
+    if (event.target.textContent == '作業中') {
+      text = '完了';
+    } else if (event.target.textContent == '完了') {
+      text = '作業中';
+    }
+    elm.textContent = text;
+    chgTaskStatus(arrIdx, text);
+  });
 };
 
 // ------------------------------
@@ -94,7 +107,7 @@ const delArrTask = (arrIdx) => {
 
 // ------------------------------
 // タスク状態変更
-const chgTaskStat = (arrIdx, statText) => {
-  allTasks[arrIdx]['sta'] = statText;
+const chgTaskStatus = (arrIdx, statustText) => {
+  allTasks[arrIdx]['status'] = statustText;
   showTaskList();
 };
