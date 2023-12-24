@@ -9,14 +9,11 @@
   <div>
     <h1>ToDoリスト</h1>
     <div>
-      <form>
+      <form id="formTaskStatus">
           <div>
-            <input type="radio" id="status1" name="contact" value="all" checked/>
-            <label for="status1">すべて</label>
-            <input type="radio" id="status2" name="contact" value="work" />
-            <label for="status2">作業中</label>
-            <input type="radio" id="status3" name="contact" value="done" />
-            <label for="status3">完了</label>
+            <label><input type="radio" id="taskStatus1" name="radioStatus" value="すべて" checked/>すべて</label>
+            <label><input type="radio" id="taskStatus2" name="radioStatus" value="作業中" />作業中</label>
+            <label><input type="radio" id="taskStatus3" name="radioStatus" value="完了" />完了</label>
           </div>
       </form>
     </div>

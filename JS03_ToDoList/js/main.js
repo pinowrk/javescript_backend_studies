@@ -2,6 +2,7 @@
 const elmTxtTask = document.getElementById('txtTask');
 const elmTblToDo = document.getElementById('tblToDo');
 const elmTblTask = document.getElementById('tblTask');
+const elmTaskStatus = document.getElementById('formTaskStatus');
 
 // ------------------------------
 // 入力レコード保存用配列
@@ -9,6 +10,8 @@ const allTasks = [];
 
 // ------------------------------
 // イベントリスナー
+// ------------------------------
+// 追加ボタン押下
 btnAdd.addEventListener(
   'click',
   () => {
@@ -24,6 +27,20 @@ btnAdd.addEventListener(
   },
   false
 );
+
+// ------------------------------
+// 状態ラジオボタン変更
+elmTaskStatus.addEventListener(
+  'change',
+  () => {
+    // 保存用配列が空でない場合のみ処理
+    if (allTasks.length > 0) {
+      showTaskList();
+    }
+  },
+  false
+);
+
 // ------------------------------
 // レコード保存用配列追加
 const addAllTasks = (txtTask) => {
@@ -43,20 +60,28 @@ const showTaskList = () => {
   elmTblTask.innerHTML = '';
   // タスクリスト生成
   const tblBody = elmTblTask;
+  // 状態用変数（初期値）
+  let showStatus = ''; // ここで良いと思うが、グローバルに置いたほうが良い？？？
+  // レコード保存用配列ループ
   allTasks.forEach((rowTask, rowIdx) => {
     rowTask.id = rowIdx;
-    const tblRow = tblBody.insertRow();
-    Object.keys(rowTask).forEach((key) => {
-      const tblCell = tblRow.insertCell();
-      if (key == 'status') {
-        elmStatusBtn = createBtn(tblRow, rowTask[key]);
-        addStatusEvent(elmStatusBtn);
-      } else {
-        tblCell.textContent = rowTask[key];
-      }
-    });
-    elmDelBtn = createBtn(tblRow, '削除');
-    addDelEvent(elmDelBtn);
+    // 表示する状態取得
+    showStatus = elmTaskStatus.radioStatus.value;
+    // 表示する状態の場合のみ表示処理
+    if (showStatus == 'すべて' || rowTask['status'] == showStatus) {
+      const tblRow = tblBody.insertRow();
+      Object.keys(rowTask).forEach((key) => {
+        const tblCell = tblRow.insertCell();
+        if (key == 'status') {
+          elmStatusBtn = createBtn(tblRow, rowTask[key]);
+          addStatusEvent(elmStatusBtn, rowIdx);
+        } else {
+          tblCell.textContent = rowTask[key];
+        }
+      });
+      elmDelBtn = createBtn(tblRow, '削除');
+      addDelEvent(elmDelBtn, rowIdx);
+    }
   });
   // リスト追加
   elmTblToDo.appendChild(tblBody);
@@ -74,27 +99,23 @@ const createBtn = (elm, text) => {
 
 // ------------------------------
 // 削除ボタンイベント
-const addDelEvent = (elm) => {
-  elm.addEventListener('click', (event) => {
-    const tblRow = event.target.parentNode.parentNode;
-    const arrIdx = tblRow.rowIndex - 1;
-    delArrTask(arrIdx);
+const addDelEvent = (elm, idx) => {
+  elm.addEventListener('click', () => {
+    delArrTask(idx);
   });
 };
 
 // ------------------------------
 // 状態ボタンイベント
-const addStatusEvent = (elm) => {
+const addStatusEvent = (elm, idx) => {
   elm.addEventListener('click', (event) => {
-    const tblRow = event.target.parentNode.parentNode;
-    const arrIdx = tblRow.rowIndex - 1;
     if (event.target.textContent == '作業中') {
       text = '完了';
     } else if (event.target.textContent == '完了') {
       text = '作業中';
     }
     elm.textContent = text;
-    chgTaskStatus(arrIdx, text);
+    chgTaskStatus(idx, text);
   });
 };
 
