@@ -34,9 +34,10 @@ elmTaskStatus.addEventListener(
   'change',
   () => {
     // 保存用配列が空でない場合のみ処理
-    if (allTasks.length > 0) {
-      showTaskList();
+    if (!allTasks.length) {
+      return;
     }
+    showTaskList();
   },
   false
 );
@@ -61,14 +62,13 @@ const showTaskList = () => {
   // タスクリスト生成
   const tblBody = elmTblTask;
   // 状態用変数（初期値）
-  let showStatus = ''; // ここで良いと思うが、グローバルに置いたほうが良い？？？
   // レコード保存用配列ループ
   allTasks.forEach((rowTask, rowIdx) => {
     rowTask.id = rowIdx;
     // 表示する状態取得
-    showStatus = elmTaskStatus.radioStatus.value;
+    const showStatus = elmTaskStatus.radioStatus.value;
     // 表示する状態の場合のみ表示処理
-    if (showStatus == 'すべて' || rowTask['status'] == showStatus) {
+    if (showStatus === 'すべて' || rowTask['status'] === showStatus) {
       const tblRow = tblBody.insertRow();
       Object.keys(rowTask).forEach((key) => {
         const tblCell = tblRow.insertCell();
