@@ -1,39 +1,29 @@
-// DOM要素参照
-const elmTxtTask = document.getElementById('txtTask');
-const elmTblToDo = document.getElementById('tblToDo');
-const elmTblTask = document.getElementById('tblTask');
-const elmTaskStatus = document.getElementById('formTaskStatus');
+const elementTextTask = document.getElementById('textTask');
+const elementTableToDo = document.getElementById('tableToDo');
+const elementTableTask = document.getElementById('tableTask');
+const elementTaskStatus = document.getElementById('formTaskStatus');
 
 // ------------------------------
-// 入力レコード保存用配列
 const allTasks = [];
 
 // ------------------------------
-// イベントリスナー
-// ------------------------------
-// 追加ボタン押下
-btnAdd.addEventListener(
+addButton.addEventListener(
   'click',
   () => {
-    // 入力取得
-    const txtTask = elmTxtTask.value.trim();
-    // 入力ある場合のみ処理
-    if (txtTask !== '') {
-      addAllTasks(txtTask);
+    const textTask = elementTextTask.value.trim();
+    if (textTask !== '') {
+      addAllTasks(textTask);
       showTaskList();
-      // 入力クリア
-      elmTxtTask.value = '';
+      elementTextTask.value = '';
     }
   },
   false
 );
 
 // ------------------------------
-// 状態ラジオボタン変更
-elmTaskStatus.addEventListener(
+elementTaskStatus.addEventListener(
   'change',
   () => {
-    // 保存用配列が空でない場合のみ処理
     if (!allTasks.length) {
       return;
     }
@@ -43,92 +33,77 @@ elmTaskStatus.addEventListener(
 );
 
 // ------------------------------
-// レコード保存用配列追加
-const addAllTasks = (txtTask) => {
-  // 新規レコード用オブジェクト
+const addAllTasks = (textTask) => {
   const arrTasks = {
     id: allTasks.length,
-    comment: txtTask,
+    comment: textTask,
     status: '作業中',
   };
-  // 入力レコード追加
   allTasks.push(arrTasks);
 };
+
 // ------------------------------
-// テーブル更新
 const showTaskList = () => {
-  // テーブルクリア
-  elmTblTask.innerHTML = '';
-  // タスクリスト生成
-  const tblBody = elmTblTask;
-  // 状態用変数（初期値）
-  // レコード保存用配列ループ
-  allTasks.forEach((rowTask, rowIdx) => {
-    rowTask.id = rowIdx;
-    // 表示する状態取得
-    const showStatus = elmTaskStatus.radioStatus.value;
-    // 表示する状態の場合のみ表示処理
-    if (showStatus === 'すべて' || rowTask['status'] === showStatus) {
-      const tblRow = tblBody.insertRow();
-      Object.keys(rowTask).forEach((key) => {
-        const tblCell = tblRow.insertCell();
-        if (key == 'status') {
-          elmStatusBtn = createBtn(tblRow, rowTask[key]);
-          addStatusEvent(elmStatusBtn, rowIdx);
+  elementTableTask.innerHTML = '';
+  const tableBody = elementTableTask;
+  allTasks.forEach((task, index) => {
+    task.id = index;
+    const showStatus = elementTaskStatus.radioStatus.value;
+    if (showStatus === 'すべて' || task['status'] === showStatus) {
+      const tableRow = tableBody.insertRow();
+      Object.keys(task).forEach((key) => {
+        const tableCell = tableRow.insertCell();
+        if (key === 'status') {
+          statusButton = createButton(tableRow, task[key]);
+          addStatusEvent(statusButton, index);
         } else {
-          tblCell.textContent = rowTask[key];
+          tableCell.textContent = task[key];
         }
       });
-      elmDelBtn = createBtn(tblRow, '削除');
-      addDelEvent(elmDelBtn, rowIdx);
+      deleteButton = createButton(tableRow, '削除');
+      addDeleteEvent(deleteButton, index);
     }
   });
-  // リスト追加
-  elmTblToDo.appendChild(tblBody);
+  elementTableToDo.appendChild(tableBody);
 };
 
 // ------------------------------
-// ボタン作成
-const createBtn = (elm, text) => {
-  const elmTrg = elm.insertCell();
-  const elmBtn = document.createElement('button');
-  elmBtn.textContent = text;
-  elmTrg.appendChild(elmBtn);
-  return elmBtn;
+const createButton = (element, text) => {
+  const elementTarget = element.insertCell();
+  const elementButton = document.createElement('button');
+  elementButton.textContent = text;
+  elementTarget.appendChild(elementButton);
+  return elementButton;
 };
 
 // ------------------------------
-// 削除ボタンイベント
-const addDelEvent = (elm, idx) => {
-  elm.addEventListener('click', () => {
-    delArrTask(idx);
+const addDeleteEvent = (element, index) => {
+  element.addEventListener('click', () => {
+    deleteTask(index);
   });
 };
 
 // ------------------------------
-// 状態ボタンイベント
-const addStatusEvent = (elm, idx) => {
-  elm.addEventListener('click', (event) => {
-    if (event.target.textContent == '作業中') {
+const addStatusEvent = (element, index) => {
+  element.addEventListener('click', (event) => {
+    if (event.target.textContent === '作業中') {
       text = '完了';
-    } else if (event.target.textContent == '完了') {
+    } else if (event.target.textContent === '完了') {
       text = '作業中';
     }
-    elm.textContent = text;
-    chgTaskStatus(idx, text);
+    element.textContent = text;
+    changeTaskStatus(index, text);
   });
 };
 
 // ------------------------------
-// タスク削除
-const delArrTask = (arrIdx) => {
-  allTasks.splice(arrIdx, 1);
+const deleteTask = (index) => {
+  allTasks.splice(index, 1);
   showTaskList();
 };
 
 // ------------------------------
-// タスク状態変更
-const chgTaskStatus = (arrIdx, statustText) => {
-  allTasks[arrIdx]['status'] = statustText;
+const changeTaskStatus = (index, text) => {
+  allTasks[index]['status'] = text;
   showTaskList();
 };
