@@ -1,7 +1,9 @@
-const elementTextTask = document.getElementById('textTask');
-const elementTableToDo = document.getElementById('tableToDo');
-const elementTableTask = document.getElementById('tableTask');
-const elementTaskStatus = document.getElementById('formTaskStatus');
+const addButton = document.getElementById('add-button');
+const taskName = document.getElementById('task-name');
+const taskTable = document.getElementById('task-table');
+const taskTbody = document.getElementById('task-tbody');
+const taskStasus = document.getElementById('task-status');
+const radioStatus = taskStasus.radio_status;
 
 // ------------------------------
 const allTasks = [];
@@ -10,18 +12,18 @@ const allTasks = [];
 addButton.addEventListener(
   'click',
   () => {
-    const textTask = elementTextTask.value.trim();
-    if (textTask !== '') {
-      addAllTasks(textTask);
+    const taskComment = taskName.value.trim();
+    if (taskComment !== '') {
+      addAllTasks(taskComment);
       showTaskList();
-      elementTextTask.value = '';
+      taskName.value = '';
     }
   },
   false
 );
 
 // ------------------------------
-elementTaskStatus.addEventListener(
+taskStasus.addEventListener(
   'change',
   () => {
     if (!allTasks.length) {
@@ -33,10 +35,10 @@ elementTaskStatus.addEventListener(
 );
 
 // ------------------------------
-const addAllTasks = (textTask) => {
+const addAllTasks = taskComment => {
   const arrTasks = {
     id: allTasks.length,
-    comment: textTask,
+    comment: taskComment,
     status: '作業中',
   };
   allTasks.push(arrTasks);
@@ -44,14 +46,14 @@ const addAllTasks = (textTask) => {
 
 // ------------------------------
 const showTaskList = () => {
-  elementTableTask.innerHTML = '';
-  const tableBody = elementTableTask;
+  taskTbody.innerHTML = '';
+  const tableTbody = taskTbody;
   allTasks.forEach((task, index) => {
     task.id = index;
-    const showStatus = elementTaskStatus.radioStatus.value;
+    const showStatus = radioStatus.value;
     if (showStatus === 'すべて' || task['status'] === showStatus) {
-      const tableRow = tableBody.insertRow();
-      Object.keys(task).forEach((key) => {
+      const tableRow = tableTbody.insertRow();
+      Object.keys(task).forEach(key => {
         const tableCell = tableRow.insertCell();
         if (key === 'status') {
           statusButton = createButton(tableRow, task[key]);
@@ -64,40 +66,40 @@ const showTaskList = () => {
       addDeleteEvent(deleteButton, index);
     }
   });
-  elementTableToDo.appendChild(tableBody);
+  taskTable.appendChild(tableTbody);
 };
 
 // ------------------------------
-const createButton = (element, text) => {
-  const elementTarget = element.insertCell();
-  const elementButton = document.createElement('button');
-  elementButton.textContent = text;
-  elementTarget.appendChild(elementButton);
-  return elementButton;
+const createButton = (tableRow, text) => {
+  const targetCell = tableRow.insertCell();
+  const createdButton = document.createElement('button');
+  createdButton.textContent = text;
+  targetCell.appendChild(createdButton);
+  return createdButton;
 };
 
 // ------------------------------
-const addDeleteEvent = (element, index) => {
-  element.addEventListener('click', () => {
+const addDeleteEvent = (deleteButton, index) => {
+  deleteButton.addEventListener('click', () => {
     deleteTask(index);
   });
 };
 
 // ------------------------------
-const addStatusEvent = (element, index) => {
-  element.addEventListener('click', (event) => {
+const addStatusEvent = (statusButton, index) => {
+  statusButton.addEventListener('click', event => {
     if (event.target.textContent === '作業中') {
       text = '完了';
     } else if (event.target.textContent === '完了') {
       text = '作業中';
     }
-    element.textContent = text;
+    statusButton.textContent = text;
     changeTaskStatus(index, text);
   });
 };
 
 // ------------------------------
-const deleteTask = (index) => {
+const deleteTask = index => {
   allTasks.splice(index, 1);
   showTaskList();
 };
