@@ -1,4 +1,4 @@
-class GetQuizData {
+class UseQuizAPI {
   // ==============================
   constructor() {
     this.sessionToken = null;
@@ -134,30 +134,27 @@ const showQuizData = index => {
     quizAnswer = appendQuizAnswer();
     const answerButton = createButton(quizAnswer, 'ホームへ戻る');
     answerButton.addEventListener('click', () => {
-      initializeShowMessage();
+      initializeShowQuiz();
     });
   }
 };
 
 // ------------------------------
-const initializeShowMessage = () => {
+const initializeShowQuiz = () => {
   quizDatas.splice(0, quizDatas.length);
   clearShowQuiz();
   appendShowQuiz();
   const quizAnswer = document.createElement('div');
   showAnswer.appendChild(quizAnswer);
-
   quizNumber.textContent = 'ようこそ';
   quizQuestion.textContent = '下のボタンをクリックして下さい。';
-
   const startButton = createButton(quizAnswer, '開始');
-
   startButton.addEventListener('click', async () => {
     quizNumber.textContent = '取得中';
     quizQuestion.textContent = '少々お待ち下さい。';
     showAnswer.innerHTML = '';
     try {
-      const apiQuizDatas = await getQuizData.getQuizData();
+      const apiQuizDatas = await useQuizAPI.getQuizData(10);
       createQuizData(apiQuizDatas['results']);
       showQuizData(0);
     } catch (error) {
@@ -179,6 +176,6 @@ const quizQuestion = document.createElement('p');
 
 const quizDatas = [];
 
-const getQuizData = new GetQuizData();
+const useQuizAPI = new UseQuizAPI();
 
-initializeShowMessage();
+initializeShowQuiz();
