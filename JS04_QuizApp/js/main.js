@@ -146,10 +146,9 @@ const initializeShowQuiz = () => {
   quizDatas.splice(0, quizDatas.length);
   clearShowQuiz();
   appendShowQuiz();
-  const quizAnswer = document.createElement('div');
-  showAnswer.appendChild(quizAnswer);
   quizNumber.textContent = 'ようこそ';
   quizQuestion.textContent = '下のボタンをクリックして下さい。';
+  quizAnswer = appendQuizAnswer();
   const startButton = createButton(quizAnswer, '開始');
   startButton.addEventListener('click', async () => {
     quizNumber.textContent = '取得中';
@@ -160,24 +159,20 @@ const initializeShowQuiz = () => {
       createQuizData(apiQuizDatas['results']);
       showQuizData(0);
     } catch (error) {
-      console.error('Error:', error);
-      quizQuestion.textContent = error;
+      console.error('Error useQuizAPI.getQuizData :', error);
     }
   });
 };
 
+// ------------------------------
 const showMessage = document.getElementById('show-message');
 const showQuestion = document.getElementById('show-question');
 const showAnswer = document.getElementById('show-answer');
 const startButton = document.getElementById('start-button');
-
 const quizNumber = document.createElement('h2');
 const quizCategory = document.createElement('h4');
 const quizDifficulty = document.createElement('h4');
 const quizQuestion = document.createElement('p');
-
 const quizDatas = [];
-
 const useQuizAPI = new UseQuizAPI();
-
 initializeShowQuiz();
