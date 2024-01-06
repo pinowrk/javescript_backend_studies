@@ -159,7 +159,7 @@ const initializeShowQuiz = () => {
       showQuizData(0);
     } catch (error) {
       console.error('Error:', error);
-      quizQuestion.textContent = error; //
+      quizQuestion.textContent = error;
     }
   });
 };
