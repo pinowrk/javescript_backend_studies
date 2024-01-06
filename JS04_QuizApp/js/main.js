@@ -38,11 +38,13 @@ class UseQuizAPI {
 
 // ------------------------------
 const clearShowQuiz = () => {
-  showAnswer.innerHTML = '';
+  // 「showMessage」「showQuestion」を「innerHTML = ''」でクリアしようとしたが、
+  // うまく動作しなかったので、それぞれの子要素を「textContent」で文字をクリアして対応
   quizNumber.textContent = '';
   quizCategory.textContent = '';
   quizDifficulty.textContent = '';
   quizQuestion.textContent = '';
+  showAnswer.innerHTML = '';
 };
 
 // ------------------------------
