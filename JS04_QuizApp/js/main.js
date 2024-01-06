@@ -78,7 +78,7 @@ const createAnswers = (correct_answer, incorrect_answers) => {
   let answers = [];
   answers = incorrect_answers;
   answers.push(correct_answer);
-  answers.sort(); // 「push」や代入だけだと答えが先頭か末尾に偏るのでソートして分散させる。
+  answers.sort(); // 「push」や代入だけだと正解が先頭か末尾に偏るのでソートして分散させる。
   return answers;
 };
 
