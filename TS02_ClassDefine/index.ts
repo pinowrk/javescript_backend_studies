@@ -35,7 +35,7 @@ class ObjectWrapper {
    * 指定のキーが存在しない場合 undefinedを返却
    * @param key オブジェクトのキー
    */
-  get(key: string): unknown | undefined {
+  get(key: string): string | undefined {
     if (this._obj.hasOwnProperty(key)) {
       return this._obj[key];
     } else {
@@ -46,7 +46,7 @@ class ObjectWrapper {
   /**
    * 指定した値を持つkeyの配列を返却。該当のものがなければ空の配列を返却。
    */
-  findKeys(val: unknown): string[] {
+  findKeys(val: string): string[] {
     return Object.keys(this._obj).filter(key => this._obj[key] === val);
   }
 }
