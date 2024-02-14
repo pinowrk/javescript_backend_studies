@@ -16,5 +16,9 @@
     "start": "npm run build:live",
     "build": "tsc -p .",
     "build:live": "nodemon --watch '*.ts' --exec \"ts-node\" index.ts"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.202",
+    "lodash": "^4.17.21"
   }
 }
