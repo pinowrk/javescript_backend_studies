@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand" href="/">Express</a>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+    </ul>
+  </div>
+  <div>
+    <% if (currentPath !== '/login') { %>
+      <a class="btn btn-outline-success my-2 my-sm-0 mrr-2" href="/login">Login</a>
+    <% } else { %>
+      <span class="btn my-2 my-sm-0 mrr-2">Login</span>
+    <% } %>
+    <% if (currentPath !== '/register') { %>
+      <a class="btn btn-outline-success my-2 my-sm-0 mrr-2" href="/register">Register</a>
+    <% } else { %>
+      <span class="btn my-2 my-sm-0 mrr-2">Register</span>
+    <% } %>
+  </div>
+</nav>
