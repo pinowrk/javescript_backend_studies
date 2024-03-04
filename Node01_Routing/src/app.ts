@@ -17,5 +17,5 @@ app.use('/login', require('./routes/login.js'));
 app.use('/', require('./routes/index.js'));
 
 app.listen(PORT, () => {
-  console.log(`Application listening at :${PORT}`);
+  console.log(`Application listening at : ${PORT}`);
 });
