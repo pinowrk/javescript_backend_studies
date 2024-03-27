@@ -4,7 +4,6 @@ import path from 'path';
 const app: Express = express();
 const port: number = 3001;
 
-// publicディレクトリを静的ファイルのルートディレクトリとして指定
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.disable('x-powered-by');
